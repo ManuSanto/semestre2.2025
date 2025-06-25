@@ -1,41 +1,28 @@
-using UnityEngine;
+using System;
 
-public class Personagem : MonoBehaviour
+[Serializable]
+public class PersonagemBase
 {
-    [SerializeField] private string nome;
-    [ SerializeField ] private int energia;
-    [ SerializeField ] private int forca_ataque;
-    [ SerializeField ] private float velocidade;
-    
-    
-    
+    // Variáveis privadas
+    private string nome;
+    private int energia;
+    private int forca;
+    private float velocidade;
+
+    // Setters
     public void AtribuirNome(string nome)
     {
         this.nome = nome;
     }
 
-    public string Nome()
-    {
-        return this.nome;
-    }
     public void AtribuirEnergia(int energia)
     {
         this.energia = energia;
     }
 
-    public int Energia()
+    public void AtribuirForca(int forca)
     {
-        return this.energia;
-    }
- 
-    public void AtribuirForca_Ataque(int forca_ataque)
-    {
-        this.forca_ataque = forca_ataque;
-    }
-
-    public int Forca_Ataque()
-    {
-        return this.forca_ataque;
+        this.forca = forca;
     }
 
     public void AtribuirVelocidade(float velocidade)
@@ -43,21 +30,41 @@ public class Personagem : MonoBehaviour
         this.velocidade = velocidade;
     }
 
+    // Getters
+    public string Nome()
+    {
+        return this.nome;
+    }
+
+    public int Energia()
+    {
+        return this.energia;
+    }
+
+    public int Forca()
+    {
+        return this.forca;
+    }
+
     public float Velocidade()
     {
         return this.velocidade;
     }
-    
-    
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
-    }
-        
-    
-}
 
+    // Comparação simples entre dois personagens
+    public string CompararComOutro(PersonagemBase outro)
+    {
+        string resultado = $"{nome} VS {outro.Nome()}\n" +
+                           $"{nome} - Energia: {energia}, Força: {forca}, Velocidade: {velocidade}\n" +
+                           $"{outro.Nome()} - Energia: {outro.Energia()}, Força: {outro.Forca()}, Velocidade: {outro.Velocidade()}\n";
+
+        if (forca > outro.Forca())
+            resultado += $"{nome} é mais forte que {outro.Nome()}";
+        else if (forca < outro.Forca())
+            resultado += $"{outro.Nome()} é mais forte que {nome}";
+        else
+            resultado += $"{nome} e {outro.Nome()} têm a mesma força.";
+
+        return resultado;
+    }
+}
